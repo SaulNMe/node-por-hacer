@@ -11,12 +11,18 @@ switch (comando) {
         break;
 
     case 'listar':
-        let listado = getListado();
-        for (const tarea of listado) {
-            console.log(Colors.green("======== Por hacer ======="));
-            console.log(tarea.descripcion);
-            console.log("Estado: ", tarea.completado);
-            console.log(Colors.green("==========================\n"));
+        let listado = getListado(argv.descripcion, argv.completado);
+        if (listado.length == 0) {
+            console.log(Colors.magenta("Aún no tienes tareas por hacer"));
+        } else {
+
+            for (const tarea of listado) {
+                console.log(Colors.green("======== Por hacer ======="));
+                console.log(Colors.cyan("id: "), Colors.yellow(tarea.id));
+                console.log(Colors.cyan("Tarea: "), Colors.yellow(tarea.descripcion));
+                console.log(Colors.cyan("Estado: "), Colors.yellow(tarea.completado));
+                console.log(Colors.green("==========================\n"));
+            }
         }
         break;
 

@@ -27,6 +27,12 @@ const crear = (descripcion) => {
     cargarDB();
 
     let porHacer = {
+        //id: "_" + Math.random().toString(36).substr(2, 9),
+        id: 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            var r = Math.random() * 16 | 0,
+                v = c == 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        }),
         descripcion,
         completado: false
     };
@@ -52,9 +58,17 @@ const actualizar = (descripcion, completado = true) => {
 
 };
 
-const getListado = () => {
+const getListado = (des = "", comp = false) => {
+    console.log(typeof comp);
     cargarDB();
-    return listadoPorHacer;
+    let newList = [];
+    listadoPorHacer.forEach((tarea) => {
+        console.log(tarea.completado, comp);
+        if ((des.length > 0 && tarea.descripcion.indexOf(des, 0) >= 0) || tarea.completado == Boolean(comp)) {
+            newList.push(tarea)
+        };
+    });
+    return newList;
 }
 
 const borrar = (descripcion) => {
